@@ -1,9 +1,14 @@
 import os
 
-BASEDIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-DB_PATH = os.path.join(BASEDIR, 'site.db')
-
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key')
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///' + DB_PATH)
+    
+    # Get database URL from environment variable and ensure it uses postgresql://
+    database_url = os.environ.get('DATABASE_URL', '')
+    
+    # Handle both postgres:// and postgresql:// formats
+    if database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    
+    SQLALCHEMY_DATABASE_URI = database_url or 'sqlite:///site.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
