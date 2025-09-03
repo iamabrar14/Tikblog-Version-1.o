@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block body %}
+  <h2>Create a New Blog Post</h2>
+  <form action="{{ url_for('main.new_post') }}" method="post" class="card">
+    <p><input type="text" name="title" placeholder="Post Title" required></p>
+    <p><textarea name="content" rows="10" placeholder="Write your story..." required></textarea></p>
+    <p><button type="submit" class="btn">Publish Post</button></p>
+  </form>
+{% endblock %}
